@@ -20,6 +20,7 @@ export const updateInventory=async (req:Request, res:Response,next:NextFunction)
 
         // Step 2: Update inventory quantity
         product.quantity_available += quantityToUpdate;
+        product.last_updated=new Date()
         await product.save({ session });
 
         await session.commitTransaction();
@@ -29,7 +30,10 @@ export const updateInventory=async (req:Request, res:Response,next:NextFunction)
         await session.abortTransaction();
         session.endSession();
         console.error("Error updating inventory:", error);
-        res.status(500).send("Failed to update inventory.");
+        res.status(500).json({
+            error:error.errors?error.errors: error.message,
+            message:"Failed to update inventory"
+        });
     }
 }
 

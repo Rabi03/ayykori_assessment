@@ -6,7 +6,10 @@ const inventorySchema = new mongoose.Schema({
         required: true,
         ref: "Product"
     },
-    quantity_available: Number,
+    quantity_available:{
+        type:Number,
+        required:true
+    },
     last_updated: Date
 })
 

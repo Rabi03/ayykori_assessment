@@ -6,8 +6,14 @@ const orderSchema = new mongoose.Schema({
         required: true,
         ref: "User"
     },
-    order_date: Date,
-    status: String,
+    order_date: {
+        type:Date,
+        default:Date.now()
+    },
+    shipped: {
+        type:Boolean,
+        default:false
+    },
     items: [
         {
             product_id: {

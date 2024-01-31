@@ -1,8 +1,6 @@
 import { ObjectId } from "mongoose";
 
 export interface OrderDto{
-    order_date: Date;
-    status: String;
     items: OrderItemDto[]
 }
 

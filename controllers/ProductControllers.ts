@@ -18,7 +18,7 @@ export const newProduct=async(req:Request,res:Response,next:NextFunction)=>{
 
         await product.save({ session });
 
-        const inventory=new Inventory({product_id:product._id,quantity_available:productDetails.quantity_available,last_updated:Date.now()});
+        const inventory=new Inventory({product_id:product._id,quantity_available:productDetails.quantity_available,last_updated:new Date()});
 
         await inventory.save({session});
 
@@ -34,7 +34,10 @@ export const newProduct=async(req:Request,res:Response,next:NextFunction)=>{
         await session.abortTransaction();
         session.endSession();
         console.error("Error adding product:", error);
-        res.status(500).send("Failed to add product.");
+        res.status(500).json({
+            error:error.errors,
+            message:"Failed to add product."
+        });
     }
 }
 

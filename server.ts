@@ -2,6 +2,11 @@ import express, { Application } from 'express';
 import mongoose, { ConnectOptions } from 'mongoose';
 import dotenv from 'dotenv';
 import cors from 'cors';
+import User from './routes/User';
+import Product from './routes/Product';
+import Order from './routes/Order';
+import Inventory from './routes/Inventory';
+import { customRateLimiter } from './middleware/rateLimiter';
 
 
 process.on('uncaughtException', err => {
@@ -22,8 +27,12 @@ app.use(
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+app.use("/",customRateLimiter)
 
-
+app.use("/",User);
+app.use("/",Product);
+app.use("/",Order);
+app.use("/",Inventory);
 
 
 
