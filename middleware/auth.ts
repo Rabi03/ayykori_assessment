@@ -6,7 +6,7 @@ export const isUserAuthenticated = async(req:Request,res:Response,next:NextFunct
     
 
     if(!apiKey){
-        return res.status(400).send('Login first to access this resource')
+        return res.status(400).send('Provide API key to access this resource')
     }
 
     next()

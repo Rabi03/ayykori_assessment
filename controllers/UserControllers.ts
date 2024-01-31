@@ -28,17 +28,16 @@ export const newUser=async (req:Request, res:Response,next:NextFunction) => {
 }
 
 export const userInfo=async (req:Request, res:Response,next:NextFunction) => {
-    const email=req.body.email;
     try {
-        const user=await User.findOne({email});
+        const user=await User.findById(req.headers.authorization);
         if(!user){
-            throw new Error(`Can not find user with email ${user.email}.`);
+            throw new Error(`Can not find user with API key ${req.headers.authorization}.`);
         }
 
-        res.status(200).send(`Your api key : ${user._id}`);
+        res.status(200).json({user});
         
     } catch (error) {
-        res.status(404).send("Can not find user with email."+error.message)
+        res.status(404).send("Can not find user with API key."+error.message)
     }
 }
 

@@ -12,15 +12,20 @@ export const customRateLimiter = async (req: Request, res: Response, next: NextF
 
     let apiKey = req.headers.authorization;
     
-
+    
     if(!apiKey){
-        return res.status(400).send('Provide API key to access this resource')
+        if(req.originalUrl.includes('user/new')||req.originalUrl.includes("admin/create")){
+          return next()
+        }
+        else{
+          return res.status(400).send('Provide API key to access this resource')
+        }
     }
 
     // fetch records of current user using IP address, returns null when no record is found
     const record = await requests[apiKey];
     const currentRequestTime = moment();
-    console.log(record);
+    
     //  if no record is found , create a new record for user and store to redis
     if (record === null || record === undefined) {
       let newRecord = [];
@@ -30,7 +35,7 @@ export const customRateLimiter = async (req: Request, res: Response, next: NextF
       };
       newRecord.push(requestLog);
       requests[apiKey] = JSON.stringify(newRecord);
-      console.log(requests)
+      
       next();
     }
     else {
@@ -40,7 +45,7 @@ export const customRateLimiter = async (req: Request, res: Response, next: NextF
       let requestsWithinWindow = data.filter((entry) => {
         return entry.requestTimeStamp > windowStartTimestamp;
       });
-      console.log('requestsWithinWindow', requestsWithinWindow);
+      
       let totalWindowRequestsCount = requestsWithinWindow.reduce((accumulator, entry) => {
         return accumulator + entry.requestCount;
       }, 0);
