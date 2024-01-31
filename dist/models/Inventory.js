@@ -10,7 +10,10 @@ const inventorySchema = new mongoose_1.default.Schema({
         required: true,
         ref: "Product"
     },
-    quantity_available: Number,
+    quantity_available: {
+        type: Number,
+        required: true
+    },
     last_updated: Date
 });
 exports.default = mongoose_1.default.model('Inventory', inventorySchema);

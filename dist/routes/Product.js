@@ -4,11 +4,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
-const OrderControllers_1 = require("../controllers/OrderControllers");
+const ProductControllers_1 = require("../controllers/ProductControllers");
 const auth_1 = require("../middleware/auth");
 const router = express_1.default.Router();
-router.route('/order/new').post(auth_1.isUserAuthenticated, OrderControllers_1.newOrder);
-router.route('/order/all').get(auth_1.isUserAuthenticated, OrderControllers_1.allOrder);
-router.route('/order/shipped').put(auth_1.isUserAuthenticated, OrderControllers_1.shippingProcess);
+router.route('/product/new').post(auth_1.isUserAuthenticated, ProductControllers_1.newProduct);
+router.route('/product/all').get(auth_1.isUserAuthenticated, ProductControllers_1.allProduct);
 exports.default = router;
-//# sourceMappingURL=Order.js.map
+//# sourceMappingURL=Product.js.map
